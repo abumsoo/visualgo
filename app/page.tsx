@@ -5,9 +5,13 @@ import React from 'react'
 let swaps: number[][] = []
 
 export default function Home() {
+  const [values, setValues] = React.useState<Array<number>>([])
+
   // generate random numbers
-  const initialValues = Array.from(generateRandomArray(8, 12))
-  const [values, setValues] = React.useState([...initialValues])
+  React.useEffect(() => {
+    setValues(Array.from(generateRandomArray(8, 12)))
+  }, [])
+
   function handleSort() {
     // fill swaps
     let newValues = [...values]
@@ -25,15 +29,16 @@ export default function Home() {
       )
     }
   }
+
   return (
     <div className="flex flex-col w-fill h-fill">
       <div className="flex gap-1 justify-center w-full">
         {values.map((v, id) => (
           <div
-            className="bg-black w-[100px] h-[100px]"
+            className="bg-black w-[50px] h-[100px]"
             key={id}
             id={`box-${id}`}
-            style={{ height: `${v * 50}px` }}
+            style={{ height: `${v * 25}px` }}
           ></div>
         ))}
       </div>

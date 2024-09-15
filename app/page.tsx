@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Bar from './components/Bar'
 
 let swaps: number[][] = []
 
@@ -33,13 +34,9 @@ export default function Home() {
   return (
     <div className="flex flex-col w-fill h-fill">
       <div className="flex gap-1 justify-center w-full">
+        {/* make a box container around the bars */}
         {values.map((v, id) => (
-          <div
-            className="bg-black w-[50px] h-[100px]"
-            key={id}
-            id={`box-${id}`}
-            style={{ height: `${v * 25}px` }}
-          ></div>
+          <Bar key={id} length={v} width={10} />
         ))}
       </div>
       <button

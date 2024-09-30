@@ -1,16 +1,18 @@
 interface BarProps {
   width: number
   length: number
+  size: number
   color?: string
 }
 export default function Bar(props: BarProps) {
+  let unit = 384 / props.size
   return (
     <div
-      className="bg-blue-950 w-[50px] h-[100px] rounded"
+      className="max-h-96 max-w-3 rounded"
       style={{
-        height: `${props.length * 10}px`,
+        height: `${Math.floor(props.length * unit)}px`,
         width: `${props.width}px`,
-        backgroundColor: props.color ?? 'rgb(8 51 68)',
+        backgroundColor: props.color ?? 'rgb(99 102 241)',
       }}
     ></div>
   )

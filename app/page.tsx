@@ -47,7 +47,7 @@ export default function Home() {
   }
   return (
     <div className="flex flex-col items-center w-fill h-fill gap-2">
-      <div className="flex flex-col md:w-[50%] h-screen">
+      <div className="flex flex-col md:w-[50%] h-screen w-full">
         <div className="flex gap-[2px] justify-center h-96 bg-blue-800">
           {/* make a box container around the bars */}
           {values.map((v, id) => (
@@ -91,7 +91,7 @@ export default function Home() {
               handleSort()
             }}
           >
-            Sort
+            QuickSort
           </button>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { getRandomInt } from './helpers'
 
-type Move = {
-  type: 'swap' | 'pivot'
-  swapees: number[]
-}
-
-function partition(arr: number[], low: number, high: number, moves: Move[]) {
+function partition(
+  arr: number[],
+  low: number,
+  high: number,
+  moves: number[][]
+) {
   pickRandomPivot(arr, low, high, moves)
   const pivot = arr[high]
   let j = low
@@ -13,7 +13,7 @@ function partition(arr: number[], low: number, high: number, moves: Move[]) {
     if (arr[i] <= pivot) {
       ;[arr[i], arr[j]] = [arr[j], arr[i]]
       if (i !== j) {
-        moves.push({ type: 'swap', swapees: [i, j] })
+        moves.push([i, j])
       }
       j++
     }
@@ -21,7 +21,7 @@ function partition(arr: number[], low: number, high: number, moves: Move[]) {
   // SHOW this swap
   ;[arr[j], arr[high]] = [arr[high], arr[j]]
   if (j !== high) {
-    moves.push({ type: 'swap', swapees: [j, high] })
+    moves.push([j, high])
   }
   return j
 }
@@ -30,13 +30,13 @@ function pickRandomPivot(
   arr: number[],
   low: number,
   high: number,
-  moves: Move[]
+  moves: number[][]
 ) {
   // SHOW original pivot location
   const pivotIndex = getRandomInt(low, high + 1)
   ;[arr[high], arr[pivotIndex]] = [arr[pivotIndex], arr[high]]
   if (pivotIndex !== high) {
-    moves.push({ type: 'pivot', swapees: [high, pivotIndex] })
+    moves.push([high, pivotIndex])
   }
 }
 
@@ -44,7 +44,7 @@ function quicksortHelper(
   nums: number[],
   low: number,
   high: number,
-  moves: Move[]
+  moves: number[][]
 ) {
   if (low < high) {
     // SHOW which pivot is chosen
@@ -55,8 +55,8 @@ function quicksortHelper(
   }
 }
 
-export default function quicksort(nums: number[]): [number[], Move[]] {
-  const moves: Move[] = []
+export default function quicksort(nums: number[]): [number[], number[][]] {
+  const moves: number[][] = []
   quicksortHelper(nums, 0, nums.length - 1, moves)
   return [nums, moves]
 }

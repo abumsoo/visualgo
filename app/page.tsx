@@ -4,12 +4,14 @@ import React from 'react'
 import Bar from './components/Bar'
 import { generateRandomArray } from './utils/helpers'
 import quicksort from './utils/quickSort'
+import { bubbleSort } from './utils/bubbleSort'
 
 export default function Home() {
   const [values, setValues] = React.useState<Array<[number, string]>>([])
   const [size, setSize] = React.useState(8)
   const [initialized, setInitialized] = React.useState(false) // For strict mode double mount
   const [sorting, setSorting] = React.useState(false)
+  const [algorithm, setAlgorithm] = React.useState('bubblesort')
 
   const barColor = 'rgb(165 180 252)'
 
@@ -30,16 +32,27 @@ export default function Home() {
     setSorting(true)
 
     let numsOnly = values.map(([num, _]) => num)
-    let [_, moves] = quicksort(numsOnly)
+
+    let swaps: number[][] = []
+    switch (algorithm) {
+      case 'bubblesort':
+        swaps = bubbleSort(numsOnly)[1]
+        break
+      case 'quicksort':
+        swaps = quicksort(numsOnly)[1]
+        break
+      default:
+        console.log("couldn't find algorithm")
+    }
 
     let newValues = [...values]
 
-    moves.forEach((move, index) => {
+    swaps.forEach((move, index) => {
       setTimeout(() => {
-        const [i, j] = move.swapees
+        const [i, j] = move
         ;[newValues[i], newValues[j]] = [newValues[j], newValues[i]]
         setValues(() => [...newValues])
-        if (index === moves.length - 1) {
+        if (index === swaps.length - 1) {
           setSorting(false)
         }
       }, 100 * index)
@@ -60,7 +73,18 @@ export default function Home() {
             />
           ))}
         </div>
-        <div className="flex flex-col bg-blue-900 grow p-2 items-center gap-1">
+        <div className="flex flex-col bg-blue-900 grow p-4 items-center gap-1">
+          <div>
+            <label>Sorting algorithm: </label>
+            <select
+              className="bg-indigo-300 px-1"
+              value={algorithm}
+              onChange={(e) => setAlgorithm(e.target.value)}
+            >
+              <option value="bubblesort">Bubble Sort</option>
+              <option value="quicksort">Quicksort</option>
+            </select>
+          </div>
           <div className="flex">
             <label className="pr-4">Size:</label>
             <input
@@ -91,7 +115,7 @@ export default function Home() {
               handleSort()
             }}
           >
-            QuickSort
+            Sort
           </button>
         </div>
       </div>

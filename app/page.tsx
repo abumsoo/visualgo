@@ -73,11 +73,11 @@ export default function Home() {
             />
           ))}
         </div>
-        <div className="flex flex-col bg-blue-900 grow p-4 items-center gap-1">
+        <div className="flex flex-col bg-blue-900 grow p-4 items-center gap-2">
           <div>
             <label>Sorting algorithm: </label>
             <select
-              className="bg-indigo-300 px-1"
+              className="border-2 bg-indigo-500 px-1"
               value={algorithm}
               onChange={(e) => setAlgorithm(e.target.value)}
             >

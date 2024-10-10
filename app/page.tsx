@@ -117,6 +117,14 @@ export default function Home() {
           >
             Sort
           </button>
+          <button
+            className="border-2 w-fit mx-auto p-2 rounded hover:bg-blue-900"
+            onClick={(e) => {
+              e.preventDefault()
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>

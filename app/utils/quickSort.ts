@@ -55,7 +55,7 @@ function quicksortHelper(
   }
 }
 
-export default function quicksort(nums: number[]): [number[], number[][]] {
+export default function quickSort(nums: number[]): [number[], number[][]] {
   const moves: number[][] = []
   quicksortHelper(nums, 0, nums.length - 1, moves)
   return [nums, moves]

@@ -1,5 +1,5 @@
-export function bubbleSort(nums: number[]) {
-  let moves: number[][] = []
+export default function bubbleSort(nums: number[]): [number[], number[][]] {
+  const moves: number[][] = []
   let swapped = true
   while (swapped) {
     swapped = false
@@ -11,5 +11,5 @@ export function bubbleSort(nums: number[]) {
       }
     }
   }
-  return [nums, moves] as const
+  return [nums, moves]
 }

@@ -3,8 +3,9 @@
 import React from 'react'
 import Bar from './components/Bar'
 import { generateRandomArray } from './utils/helpers'
-import quicksort from './utils/quickSort'
-import { bubbleSort } from './utils/bubbleSort'
+import quickSort from './utils/quickSort'
+import bubbleSort from './utils/bubbleSort'
+import selectionSort from './utils/selectionSort'
 
 export default function Home() {
   const [values, setValues] = React.useState<Array<[number, string]>>([])

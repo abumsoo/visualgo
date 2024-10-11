@@ -9,10 +9,11 @@ import selectionSort from './utils/selectionSort'
 
 export default function Home() {
   const [values, setValues] = React.useState<Array<[number, string]>>([])
-  const [size, setSize] = React.useState(8)
+  const [size, setSize] = React.useState(20)
   const [initialized, setInitialized] = React.useState(false) // For strict mode double mount
   const [sorting, setSorting] = React.useState(false)
-  const [algorithm, setAlgorithm] = React.useState('bubblesort')
+  const [algorithm, setAlgorithm] = React.useState('bubbleSort')
+  const timers: ReturnType<typeof setTimeout>[] = []
 
   const barColor = 'rgb(165 180 252)'
 
@@ -20,12 +21,17 @@ export default function Home() {
   React.useEffect(() => {
     if (!initialized) {
       const newArray: [number, string][] = Array.from(
-        generateRandomArray(8)
+        generateRandomArray(20)
       ).map((v) => [v, barColor])
       setValues(newArray)
       setInitialized(true)
     }
   }, [initialized])
+
+  function handleCancel() {
+    timers.forEach((t) => clearTimeout(t))
+    setSorting(false)
+  }
 
   // generate new random numbers after sort button is clicked
   function handleSort() {
@@ -36,11 +42,14 @@ export default function Home() {
 
     let swaps: number[][] = []
     switch (algorithm) {
-      case 'bubblesort':
+      case 'bubbleSort':
         swaps = bubbleSort(numsOnly)[1]
         break
-      case 'quicksort':
-        swaps = quicksort(numsOnly)[1]
+      case 'quickSort':
+        swaps = quickSort(numsOnly)[1]
+        break
+      case 'selectionSort':
+        swaps = selectionSort(numsOnly)[1]
         break
       default:
         console.log("couldn't find algorithm")
@@ -49,7 +58,7 @@ export default function Home() {
     let newValues = [...values]
 
     swaps.forEach((move, index) => {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const [i, j] = move
         ;[newValues[i], newValues[j]] = [newValues[j], newValues[i]]
         setValues(() => [...newValues])
@@ -57,6 +66,7 @@ export default function Home() {
           setSorting(false)
         }
       }, 100 * index)
+      timers.push(timer)
     })
   }
   return (
@@ -82,8 +92,9 @@ export default function Home() {
               value={algorithm}
               onChange={(e) => setAlgorithm(e.target.value)}
             >
-              <option value="bubblesort">Bubble Sort</option>
-              <option value="quicksort">Quicksort</option>
+              <option value="bubbleSort">Bubble Sort</option>
+              <option value="quickSort">Quicksort</option>
+              <option value="selectionSort">Selection Sort</option>
             </select>
           </div>
           <div className="flex">
@@ -117,6 +128,15 @@ export default function Home() {
             }}
           >
             Sort
+          </button>
+          <button
+            className="border-2 w-fit mx-auto p-2 rounded hover:bg-blue-900"
+            onClick={(e) => {
+              e.preventDefault()
+              handleCancel()
+            }}
+          >
+            Cancel
           </button>
         </div>
       </div>
